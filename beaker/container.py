@@ -417,12 +417,11 @@ class Value(object):
         self.namespace.acquire_write_lock()
         try:
             debug("clear_value")
-            if self.key in self.namespace:
-                try:
-                    del self.namespace[self.key]
-                except KeyError:
-                    # guard against un-mutexed backends raising KeyError
-                    pass
+            try:
+                del self.namespace[self.key]
+            except KeyError:
+                # guard against un-mutexed backends raising KeyError
+                pass
             self.storedtime = -1
         finally:
             self.namespace.release_write_lock()
